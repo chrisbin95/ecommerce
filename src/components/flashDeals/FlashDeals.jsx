@@ -69,7 +69,7 @@ const FlashDeals = ({ addToCart }) => {
     console.groupEnd();
     // 4. Tensor Vector Computation
     const ranked = tf.tidy(() => {
-      const cats = ["Shoes", "Watches", "Clothes", "Electronics"];
+      // const cats = ["Shoes", "Watches", "Clothes", "Electronics"];
       // USER VECTOR: [CatWeights..., PriceNorm, RatingPref]
       const userVector = tf.tensor1d([
         p.affinity.Shoes, p.affinity.Watches, p.affinity.Clothes, p.affinity.Electronics,

@@ -12,7 +12,7 @@ const openaiService = axios.create({
 });
 
 // 1. Updated endpoint to 'chat/completions'
-const CHAT_ENDPOINT = '/chat/completions';
+// const CHAT_ENDPOINT = '/chat/completions';
 
 export const getOpenAIResponse = async (userPrompt) => {
   try {

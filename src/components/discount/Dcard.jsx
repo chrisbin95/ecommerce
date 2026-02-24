@@ -9,7 +9,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 const Dcard = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [setError] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
