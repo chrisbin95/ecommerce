@@ -177,8 +177,7 @@ const Search = ({ cartItems, setIsLoginModalOpen }) => {
 
       <style jsx="true">{`
         .sticky-active {
-          position: fixed;
-          top: 0; left: 0; right: 0;
+          position: relative;
           background: rgba(255, 255, 255, 0.9);
           backdrop-filter: blur(10px);
           padding: 0.5rem 0 !important;
