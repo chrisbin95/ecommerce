@@ -9,6 +9,7 @@ import Footer from "./common/footer/Footer";
 import Sdata from "./components/shops/Sdata";
 import Login from "./components/login/Login";
 import Loader from "./components/loader/Loader"; // Loader Import
+import ProductPage from "./pages/ProductPage";
 import './index.css';
 
 Modal.setAppElement('#root');
@@ -79,6 +80,7 @@ function App() {
             />
           } 
         />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/offers" element={<Pages />} />
         <Route path="/track-order" element={<Pages />} />
         <Route path="/contact" element={<Pages />} />

@@ -33,7 +33,7 @@ const Wrapper = () => {
   ];
 
   return (
-    <section className="wrapper bg-white py-20 overflow-hidden">
+    <section className="wrapper py-20 overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">

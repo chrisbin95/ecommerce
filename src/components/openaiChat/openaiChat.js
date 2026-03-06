@@ -33,7 +33,7 @@ const OpenAIChat = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto my-8 p-6 bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200 border border-slate-50">
+    <div className="max-w-4xl mx-auto my-8 p-6 bg-gray-600 bg-opacity-20 rounded-[2.5rem] shadow-2xl shadow-slate-200 border border-slate-50">
       {/* Header */}
       <div className="flex items-center gap-3 mb-8 pb-4 border-b border-slate-100">
         <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-200">

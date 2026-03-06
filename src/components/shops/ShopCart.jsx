@@ -24,34 +24,35 @@ const ShopCart = ({ addToCart }) => {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
-        const productsCollection = collection(firestore, "products");
-        const productsSnapshot = await getDocs(productsCollection);
+        const subCats = ["Shoes","Watches","Clothes","Electronics"];
+        const rootSnap = await getDocs(collection(firestore,"products"));
         let allProducts = [];
-        const subCats = ["Shoes", "Watches", "Clothes", "Electronics"];
-
-        // Map through main docs and fetch subcollections in parallel
-        const fetchPromises = productsSnapshot.docs.flatMap((productDoc) =>
-          subCats.map(async (sub) => {
-            const subRef = collection(firestore, `products/${productDoc.id}/${sub}`);
-            const snap = await getDocs(subRef);
-            
-            return Promise.all(snap.docs.map(async (doc) => {
+        for (const root of rootSnap.docs) {
+          for (const cat of subCats) {
+            const snap = await getDocs(
+              collection(firestore,`products/${root.id}/${cat}`)
+            );
+            for (const doc of snap.docs) {
               const data = doc.data();
+              let imageUrl = "/placeholder.png";
               try {
-                const imgRef = ref(storage, `products/${sub}/${data.imageName}`);
-                const imageUrl = await getDownloadURL(imgRef);
-                return { id: doc.id, ...data, category: sub, imageUrl };
-              } catch {
-                return { id: doc.id, ...data, category: sub, imageUrl: "" };
-              }
-            }));
-          })
-        );
-
-        const results = await Promise.all(fetchPromises);
-        const flattened = results.flat();
-        const shuffled = shuffleArray(flattened);
-        
+                const imgRef = ref(storage,`products/${cat}/${data.imageName}`);
+                imageUrl = await getDownloadURL(imgRef);
+              } catch {}
+              allProducts.push({
+                id: doc.id,
+                ...data,
+                category: cat,
+                imageUrl
+              });
+              // LIMIT PRODUCTS (important)
+              if(allProducts.length >= 30) break;
+            }
+            if(allProducts.length >= 30) break;
+          }
+          if(allProducts.length >= 30) break;
+        }
+        const shuffled = shuffleArray(allProducts);
         setShopItems(shuffled);
         setFilteredItems(shuffled);
       } catch (err) {
@@ -80,7 +81,7 @@ const ShopCart = ({ addToCart }) => {
     ],
   };
 
-  if (loading) return <div className="p-10 text-center font-bold text-slate-400 animate-pulse">Loading ZeeCart Collection...</div>;
+  if (loading) return <div className="p-10 text-center font-bold text-slate-400 animate-pulse">Loading ZeeCart Collections...</div>;
 
   return (
     <div className="py-4">
@@ -126,9 +127,10 @@ const ShopCart = ({ addToCart }) => {
                     <i className={`${likedItems[item.id] ? 'fa-solid text-red-500' : 'fa-regular text-slate-400'} fa-heart text-xs`}></i>
                   </button>
 
-                  <img 
-                    src={item.imageUrl} 
-                    alt={item.name} 
+                  <img
+                    src={item.imageUrl || "/placeholder.png"}
+                    alt={item.name}
+                    loading="lazy"
                     className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>

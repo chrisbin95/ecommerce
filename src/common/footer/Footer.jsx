@@ -41,10 +41,10 @@ const Footer = () => {
               Revolutionizing the way you shop. Premium products, lightning-fast delivery, and an experience built around you.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all"><i className="fab fa-instagram"></i></a>
-              <a href="#" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all"><i className="fab fa-facebook-f"></i></a>
-              <a href="#" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all"><i className="fab fa-linkedin-in"></i></a>
-              <a href="#" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all"><i className="fab fa-snapchat"></i></a>
+              <a href="javascript:void(0)" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all"><i className="fab fa-instagram"></i></a>
+              <a href="javascript:void(0)" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all"><i className="fab fa-facebook-f"></i></a>
+              <a href="javascript:void(0)" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all"><i className="fab fa-linkedin-in"></i></a>
+              <a href="javascript:void(0)" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all"><i className="fab fa-snapchat"></i></a>
             </div>
           </div>
 
@@ -101,12 +101,12 @@ const Footer = () => {
         {/* BOTTOM COPYRIGHT AREA */}
         <div className="py-10 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">
-            &copy; 2026 <span className="text-slate-300">ZeeCart Pvt. Lmt</span>.
+            &copy; 2026 | <span className="text-slate-300">ZeeCart Pvt. Lmt</span>
           </p>
           <div className="flex gap-8 text-[10px] font-black uppercase tracking-widest text-slate-500">
-             <a href="#" className="hover:text-white">Security</a>
-             <a href="#" className="hover:text-white">Sitemap</a>
-             <a href="#" className="hover:text-white">English (US)</a>
+             <a href="javascript:void(0)" className="hover:text-white">Security</a>
+             <a href="javascript:void(0)" className="hover:text-white">Sitemap</a>
+             <a href="javascript:void(0)" className="hover:text-white">English (US)</a>
           </div>
         </div>
       </div>

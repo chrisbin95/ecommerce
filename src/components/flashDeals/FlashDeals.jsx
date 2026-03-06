@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import FlashCard from "./FlashCard";
 import { db, storage } from "../../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, limit } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
-import * as tf from '@tensorflow/tfjs';
+import * as tf from "@tensorflow/tfjs";
 
 const FlashDeals = ({ addToCart }) => {
   const [productItems, setProductItems] = useState([]);
@@ -12,41 +12,54 @@ const FlashDeals = ({ addToCart }) => {
   const [maxPrice, setMaxPrice] = useState(10000);
   const [aiState, setAiState] = useState({ affinity: {}, price: 0 });
 
-  // The Brain with Memory Decay
   const userProfile = useRef({
     affinity: { Shoes: 0, Watches: 0, Clothes: 0, Electronics: 0 },
     preferredPrice: 0,
     clickHistory: []
   });
 
-  // --- Fetch Logic (Optimized) ---
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const productsSnapshot = await getDocs(collection(db, "products"));
+        const categories = ["Shoes","Watches","Clothes","Electronics"];
         let allProducts = [];
-        const categories = ["Shoes", "Watches", "Clothes", "Electronics"];
-
-        for (const productDoc of productsSnapshot.docs) {
+        const rootSnap = await getDocs(collection(db,"products"));
+        for (const doc of rootSnap.docs) {
           for (const cat of categories) {
-            const subSnap = await getDocs(collection(db, `products/${productDoc.id}/${cat}`));
-            const list = await Promise.all(subSnap.docs.map(async (pDoc) => {
+            const q = query(
+              collection(db,`products/${doc.id}/${cat}`),
+              limit(5)
+            );
+            const snap = await getDocs(q);
+            for (const pDoc of snap.docs) {
               const data = pDoc.data();
-              const imageUrl = await getDownloadURL(ref(storage, `products/${cat}/${data.imageName}`)).catch(() => "/images/placeholder.png");
-              return { 
-                id: pDoc.id, ...data, imageUrl, category: cat, 
-                price: parseFloat(data.price), 
-                rating: parseFloat(data.rating || 0) 
-              };
-            }));
-            allProducts = [...allProducts, ...list];
+              let imageUrl = "/images/placeholder.png";
+              try {
+                imageUrl = await getDownloadURL(
+                  ref(storage,`products/${cat}/${data.imageName}`)
+                );
+              } catch {}
+              allProducts.push({
+                id:pDoc.id,
+                ...data,
+                imageUrl,
+                category:cat,
+                price:parseFloat(data.price),
+                rating:parseFloat(data.rating || 0)
+              });
+              if(allProducts.length >= 20) break;
+            }
+            if(allProducts.length >= 20) break;
           }
+          if(allProducts.length >= 20) break;
         }
-        const highestPrice = Math.max(...allProducts.map(p => p.price), 1000);
+        const highestPrice = Math.max(...allProducts.map(p=>p.price),1000);
         setMaxPrice(highestPrice);
-        setProductItems(allProducts.sort(() => Math.random() - 0.5));
-      } finally { setLoading(false); }
+        setProductItems(allProducts.sort(()=>Math.random()-0.5));
+      } finally {
+        setLoading(false);
+      }
     };
     fetchProducts();
   }, []);
